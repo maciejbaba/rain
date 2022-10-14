@@ -17,6 +17,11 @@ function rain() {
   drawBackground()
   drawRainDrop(rainDropX, rainDropY)
   rainDropY += rainDropYspeed
+  if (rainDropY > canvas.height) rainDropY = 0
+}
+
+function getRandomX(): number {
+  return Math.floor(Math.random() * canvas.width)
 }
 
 function drawRainDrop(x: number, y: number) {
