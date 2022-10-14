@@ -1,18 +1,18 @@
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 var speed = 50;
-var rainDropXspeed = 0;
-var rainDropYspeed = 1;
-var rainDropX = 0;
+var rainDropX = getRandomX();
 var rainDropY = 0;
 canvas.addEventListener("keydown", upOrDownArrow);
 setInterval(rain, 1000 / speed);
 function rain() {
     drawBackground();
     drawRainDrop(rainDropX, rainDropY);
-    rainDropY += rainDropYspeed;
-    if (rainDropY > canvas.height)
+    rainDropY += 2;
+    if (rainDropY > canvas.height) {
         rainDropY = 0;
+        rainDropX = getRandomX();
+    }
 }
 function getRandomX() {
     return Math.floor(Math.random() * canvas.width);
@@ -29,12 +29,12 @@ function upOrDownArrow(event) {
     var code = event.code;
     if (code == "38") {
         if (speed == 200)
-            return;
+            speed = 150;
         speed += 50;
     }
     else if (code == "40") {
         if (speed == 0)
-            return;
-        speed--;
+            speed = 50;
+        speed -= 50;
     }
 }

@@ -3,10 +3,7 @@ const context = <CanvasRenderingContext2D> canvas.getContext("2d")
 
 let speed = 50
 
-let rainDropXspeed = 0
-let rainDropYspeed = 1
-
-let rainDropX = 0
+let rainDropX = getRandomX()
 let rainDropY = 0
 
 canvas.addEventListener("keydown", upOrDownArrow)
@@ -16,8 +13,11 @@ setInterval(rain, 1000/speed)
 function rain() {
   drawBackground()
   drawRainDrop(rainDropX, rainDropY)
-  rainDropY += rainDropYspeed
-  if (rainDropY > canvas.height) rainDropY = 0
+  rainDropY += 2
+  if (rainDropY > canvas.height) {
+    rainDropY = 0
+    rainDropX = getRandomX()
+  }
 }
 
 function getRandomX(): number {
@@ -38,11 +38,11 @@ function upOrDownArrow(event: { code: any }) {
   let code = event.code
   
   if (code == "38") {
-    if (speed == 200) return
+    if (speed == 200) speed = 150
     speed += 50
   }
   else if (code == "40") {
-    if (speed == 0) return
-    speed--
+    if (speed == 0) speed = 50
+    speed -= 50
   }
 }
