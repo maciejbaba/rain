@@ -1,9 +1,9 @@
 body {
   margin: 0;
+  overflow: hidden; /* disables scrolling */
 }
 
 #canvas {
-  background-color: black;
   width: 100vw;
   height: 100vh;
 }

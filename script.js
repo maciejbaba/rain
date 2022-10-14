@@ -1,10 +1,24 @@
 var canvas = document.getElementById("canvas");
-var context = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+var context = canvas.getContext("2d");
 var speed = 50;
-canvas === null || canvas === void 0 ? void 0 : canvas.addEventListener("keydown", upOrDownArrow);
+var rainDropXspeed = 0;
+var rainDropYspeed = 1;
+var rainDropX = 0;
+var rainDropY = 0;
+canvas.addEventListener("keydown", upOrDownArrow);
 setInterval(rain, 1000 / speed);
 function rain() {
-    console.log(canvas.width);
+    drawBackground();
+    drawRainDrop(rainDropX, rainDropY);
+    rainDropY += rainDropYspeed;
+}
+function drawRainDrop(x, y) {
+    context.fillStyle = "blue";
+    context.fillRect(x, y, 1, 2);
+}
+function drawBackground() {
+    context.fillStyle = "black";
+    context.fillRect(0, 0, canvas.width, canvas.height);
 }
 function upOrDownArrow(event) {
     var code = event.code;

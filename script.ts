@@ -1,14 +1,32 @@
 const canvas = <HTMLCanvasElement> document.getElementById("canvas")
-const context = canvas?.getContext("2d")
+const context = <CanvasRenderingContext2D> canvas.getContext("2d")
 
 let speed = 50
 
-canvas?.addEventListener("keydown", upOrDownArrow)
+let rainDropXspeed = 0
+let rainDropYspeed = 1
+
+let rainDropX = 0
+let rainDropY = 0
+
+canvas.addEventListener("keydown", upOrDownArrow)
 
 setInterval(rain, 1000/speed)
 
 function rain() {
-  console.log(canvas.width)
+  drawBackground()
+  drawRainDrop(rainDropX, rainDropY)
+  rainDropY += rainDropYspeed
+}
+
+function drawRainDrop(x: number, y: number) {
+  context.fillStyle = "blue"
+  context.fillRect(x, y, 1, 2)
+}
+
+function drawBackground() {
+  context.fillStyle = "black"
+  context.fillRect(0, 0, canvas.width, canvas.height)
 }
 
 function upOrDownArrow(event: { code: any }) {
