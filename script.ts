@@ -1,35 +1,56 @@
 const canvas = <HTMLCanvasElement> document.getElementById("canvas")
 const context = <CanvasRenderingContext2D> canvas.getContext("2d")
 
-let speed = 50
+let rainType = 'drizzle'
 
-let rainDropX = getRandomX()
-let rainDropY = 0
-let slowSpeed = 1
-let mediumSpeed = 2
-let highSpeed = 3
+const rainTypes = ['drizzle', 'normal', 'heavyRain']
 
-canvas.addEventListener("keydown", upOrDownArrow)
+const rainDropHeight = 2
+const rainDropWidth = 1
 
-setInterval(rain, 1000/speed)
+const slowSpeed = 1
+const mediumSpeed = 2
+const highSpeed = 3
+
+const speeds = [slowSpeed, mediumSpeed, highSpeed]
+
+let rainDrops = []
+
+let rainDrop = createRainDrop(getRandomX(), 0, getRandomSpeed())
+
+canvas.addEventListener("keydown", (e) => upOrDownArrow(e))
+
+setInterval(rain, 1000/50)
 
 function rain() {
   drawBackground()
-  drawRainDrop(rainDropX, rainDropY)
-  rainDropY += mediumSpeed
-  if (rainDropY > canvas.height) {
-    rainDropY = 0
-    rainDropX = getRandomX()
+  drawRainDrop(rainDrop)
+  rainDrop.y += mediumSpeed
+  if (rainDrop.y > canvas.height) {
+    rainDrop.y = 0
+    rainDrop.x = getRandomX()
   }
+}
+
+function getRandomSpeed() {
+  return speeds[Math.floor(Math.random() * speeds.length)]
+}
+
+function createRainDrop(x: number, y: number, speed: number) {
+  return {x, y, speed}
 }
 
 function getRandomX(): number {
   return Math.floor(Math.random() * canvas.width)
 }
 
-function drawRainDrop(x: number, y: number) {
+function drawRainDrop(drop: { x: number; y: number; speed: number }) {
   context.fillStyle = "blue"
-  context.fillRect(x, y, 1, 2)
+  context.fillRect(drop.x, drop.y, rainDropWidth, rainDropHeight)
+}
+
+function getRandomRainType(): string {
+  return rainTypes[Math.floor(Math.random() * rainTypes.length)]
 }
 
 function drawBackground() {
@@ -37,15 +58,21 @@ function drawBackground() {
   context.fillRect(0, 0, canvas.width, canvas.height)
 }
 
-function upOrDownArrow(event: { code: any }) {
-  let code = event.code
+function upOrDownArrow(event: KeyboardEvent) {
+  let code = Number(event.code)
   
-  if (code == "38") {
-    if (speed == 200) speed = 150
-    speed += 50
+  if (code == 38) {
+    if (rainType == 'drizzle') rainType = 'drizzle'
+    else {
+      let indexOfCurrentType = rainTypes[rainType]
+      rainType = rainTypes[indexOfCurrentType + 1]
+    }
   }
-  else if (code == "40") {
-    if (speed == 0) speed = 50
-    speed -= 50
+  else if (code == 40) {
+    if (rainType == 'heavyRain') rainType = 'heavyRain'
+    else {
+      let indexOfCurrentType = rainTypes[rainType]
+      rainType = rainTypes[indexOfCurrentType - 1]
+    }
   }
 }
