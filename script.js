@@ -3,12 +3,15 @@ var context = canvas.getContext("2d");
 var speed = 50;
 var rainDropX = getRandomX();
 var rainDropY = 0;
+var slowSpeed = 1;
+var mediumSpeed = 2;
+var highSpeed = 3;
 canvas.addEventListener("keydown", upOrDownArrow);
 setInterval(rain, 1000 / speed);
 function rain() {
     drawBackground();
     drawRainDrop(rainDropX, rainDropY);
-    rainDropY += 2;
+    rainDropY += mediumSpeed;
     if (rainDropY > canvas.height) {
         rainDropY = 0;
         rainDropX = getRandomX();

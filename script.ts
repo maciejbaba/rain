@@ -5,6 +5,9 @@ let speed = 50
 
 let rainDropX = getRandomX()
 let rainDropY = 0
+let slowSpeed = 1
+let mediumSpeed = 2
+let highSpeed = 3
 
 canvas.addEventListener("keydown", upOrDownArrow)
 
@@ -13,7 +16,7 @@ setInterval(rain, 1000/speed)
 function rain() {
   drawBackground()
   drawRainDrop(rainDropX, rainDropY)
-  rainDropY += 2
+  rainDropY += mediumSpeed
   if (rainDropY > canvas.height) {
     rainDropY = 0
     rainDropX = getRandomX()
