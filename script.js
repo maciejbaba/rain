@@ -8,24 +8,31 @@ var slowSpeed = 1;
 var mediumSpeed = 2;
 var highSpeed = 3;
 var speeds = [slowSpeed, mediumSpeed, highSpeed];
-var rainDrops = [];
-var rainDrop = createRainDrop(getRandomX(), 0, getRandomSpeed());
+var rainDrops = [createRainDrop()];
 canvas.addEventListener("keydown", function (e) { return upOrDownArrow(e); });
 setInterval(rain, 1000 / 50);
 function rain() {
     drawBackground();
-    drawRainDrop(rainDrop);
-    rainDrop.y += mediumSpeed;
-    if (rainDrop.y > canvas.height) {
-        rainDrop.y = 0;
-        rainDrop.x = getRandomX();
-    }
+    rainDrops.forEach(function (drop) {
+        drawRainDrop(drop);
+        drop.y += drop.speed;
+        if (drop.y > canvas.height) {
+            drop.y = 0;
+            drop.x = getRandomX();
+            drop.speed = getRandomSpeed();
+        }
+    });
 }
 function getRandomSpeed() {
     return speeds[Math.floor(Math.random() * speeds.length)];
 }
-function createRainDrop(x, y, speed) {
-    return { x: x, y: y, speed: speed };
+function createRainDrop() {
+    var drop = {
+        x: getRandomX(),
+        y: 0,
+        speed: getRandomSpeed()
+    };
+    return drop;
 }
 function getRandomX() {
     return Math.floor(Math.random() * canvas.width);

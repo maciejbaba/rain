@@ -1,7 +1,7 @@
 const canvas = <HTMLCanvasElement> document.getElementById("canvas")
 const context = <CanvasRenderingContext2D> canvas.getContext("2d")
 
-let rainType = 'drizzle'
+let rainType = getRandomRainType()
 
 const rainTypes = ['drizzle', 'normal', 'heavyRain']
 
@@ -14,9 +14,7 @@ const highSpeed = 3
 
 const speeds = [slowSpeed, mediumSpeed, highSpeed]
 
-let rainDrops = []
-
-let rainDrop = createRainDrop(getRandomX(), 0, getRandomSpeed())
+let rainDrops = [createRainDrop()]
 
 canvas.addEventListener("keydown", (e) => upOrDownArrow(e))
 
@@ -24,20 +22,28 @@ setInterval(rain, 1000/50)
 
 function rain() {
   drawBackground()
-  drawRainDrop(rainDrop)
-  rainDrop.y += mediumSpeed
-  if (rainDrop.y > canvas.height) {
-    rainDrop.y = 0
-    rainDrop.x = getRandomX()
-  }
+  rainDrops.forEach(drop => {
+    drawRainDrop(drop)
+    drop.y += drop.speed
+    if(drop.y > canvas.height) {
+      drop.y = 0
+      drop.x = getRandomX()
+      drop.speed = getRandomSpeed()
+    }
+  })
 }
 
 function getRandomSpeed() {
   return speeds[Math.floor(Math.random() * speeds.length)]
 }
 
-function createRainDrop(x: number, y: number, speed: number) {
-  return {x, y, speed}
+function createRainDrop() {
+  let drop = {
+    x: getRandomX(),
+    y: 0,
+    speed: getRandomSpeed()
+  }
+  return drop
 }
 
 function getRandomX(): number {
