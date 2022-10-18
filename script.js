@@ -48,10 +48,13 @@ function getRandomSpeed() {
 function createRainDrop() {
     var drop = {
         x: getRandomX(),
-        y: 0,
+        y: getRandomY(),
         speed: getRandomSpeed()
     };
     return drop;
+}
+function getRandomY() {
+    return Math.floor(Math.random() * canvas.height);
 }
 function createRainDrops() {
     var amountOfDrops = 30;

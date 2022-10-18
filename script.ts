@@ -44,7 +44,7 @@ document.addEventListener("keydown", (e) => {
 
 setInterval(rain, 1000/50)
 
-function rain() {
+function rain(): void {
   drawBackground()
   rainDrops.forEach(drop => {
     drawRainDrop(drop)
@@ -57,17 +57,21 @@ function rain() {
   })
 }
 
-function getRandomSpeed() {
+function getRandomSpeed(): number {
   return speeds[Math.floor(Math.random() * speeds.length)]
 }
 
 function createRainDrop(): Drop {
   let drop: Drop = {
     x: getRandomX(),
-    y: 0,
+    y: getRandomY(),
     speed: getRandomSpeed()
   }
   return drop
+}
+
+function getRandomY(): number {
+  return Math.floor(Math.random() * canvas.height)
 }
 
 function createRainDrops(): Drop[] {
@@ -96,7 +100,7 @@ function getRandomRainType(): string {
   return rainTypes[Math.floor(Math.random() * rainTypes.length)]
 }
 
-function drawBackground() {
+function drawBackground(): void {
   context.fillStyle = 'black'
   context.fillRect(0, 0, canvas.width, canvas.height)
 }
