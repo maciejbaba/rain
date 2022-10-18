@@ -23,16 +23,16 @@ const speeds = [slowSpeed, mediumSpeed, highSpeed]
 let rainDrops = createRainDrops()
 
 document.addEventListener("keydown", (e) => {
-  let key = e.key
+  let keyName = e.key
   
-  if (key == 'ArrowUp') {
+  if (keyName == 'ArrowUp') {
     if (rainType == 'heavy rain') rainType = 'heavy rain'
     else {
       let indexOfCurrentType = rainTypes.indexOf(rainType)
       rainType = rainTypes[indexOfCurrentType + 1]
     }
   }
-  else if (key == 'ArrowDown') {
+  else if (keyName == 'ArrowDown') {
     if (rainType == 'drizzle') rainType = 'drizzle'
     else {
       let indexOfCurrentType = rainTypes.indexOf(rainType)

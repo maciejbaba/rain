@@ -10,8 +10,8 @@ var highSpeed = 4;
 var speeds = [slowSpeed, mediumSpeed, highSpeed];
 var rainDrops = createRainDrops();
 document.addEventListener("keydown", function (e) {
-    var key = e.key;
-    if (key == 'ArrowUp') {
+    var keyName = e.key;
+    if (keyName == 'ArrowUp') {
         if (rainType == 'heavy rain')
             rainType = 'heavy rain';
         else {
@@ -19,7 +19,7 @@ document.addEventListener("keydown", function (e) {
             rainType = rainTypes[indexOfCurrentType + 1];
         }
     }
-    else if (key == 'ArrowDown') {
+    else if (keyName == 'ArrowDown') {
         if (rainType == 'drizzle')
             rainType = 'drizzle';
         else {
