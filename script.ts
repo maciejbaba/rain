@@ -1,22 +1,46 @@
-const canvas = <HTMLCanvasElement> document.getElementById("canvas")
-const context = <CanvasRenderingContext2D> canvas.getContext("2d")
+const canvas = <HTMLCanvasElement> document.getElementById('canvas')
+const context = <CanvasRenderingContext2D> canvas.getContext('2d')
+
+const rainTypes = ['drizzle', 'normal', 'heavy rain']
 
 let rainType = getRandomRainType()
-
-const rainTypes = ['drizzle', 'normal', 'heavyRain']
 
 const rainDropHeight = 2
 const rainDropWidth = 1
 
-const slowSpeed = 1
-const mediumSpeed = 2
-const highSpeed = 3
+interface Drop {
+  x: number,
+  y: number,
+  speed: number
+}
+
+const slowSpeed = 2
+const mediumSpeed = 3
+const highSpeed = 4
 
 const speeds = [slowSpeed, mediumSpeed, highSpeed]
 
-let rainDrops = [createRainDrop()]
+let rainDrops = createRainDrops()
 
-canvas.addEventListener("keydown", (e) => upOrDownArrow(e))
+document.addEventListener("keydown", (e) => {
+  let key = e.key
+  
+  if (key == 'ArrowUp') {
+    if (rainType == 'heavy rain') rainType = 'heavy rain'
+    else {
+      let indexOfCurrentType = rainTypes.indexOf(rainType)
+      rainType = rainTypes[indexOfCurrentType + 1]
+    }
+  }
+  else if (key == 'ArrowDown') {
+    if (rainType == 'drizzle') rainType = 'drizzle'
+    else {
+      let indexOfCurrentType = rainTypes.indexOf(rainType)
+      rainType = rainTypes[indexOfCurrentType - 1]
+    }
+  }
+  rainDrops = createRainDrops()
+})
 
 setInterval(rain, 1000/50)
 
@@ -37,8 +61,8 @@ function getRandomSpeed() {
   return speeds[Math.floor(Math.random() * speeds.length)]
 }
 
-function createRainDrop() {
-  let drop = {
+function createRainDrop(): Drop {
+  let drop: Drop = {
     x: getRandomX(),
     y: 0,
     speed: getRandomSpeed()
@@ -46,12 +70,25 @@ function createRainDrop() {
   return drop
 }
 
+function createRainDrops(): Drop[] {
+  let amountOfDrops = 30
+  if (rainType == 'drizzle') amountOfDrops = 30
+  else if (rainType == 'normal') amountOfDrops = 80
+  else if (rainType == 'heavy rain') amountOfDrops = 200
+
+  let drops: Drop[] = []
+  for (let i = 0; i < amountOfDrops; i++) {
+    drops.push(createRainDrop())
+  }
+  return drops
+}
+
 function getRandomX(): number {
   return Math.floor(Math.random() * canvas.width)
 }
 
-function drawRainDrop(drop: { x: number; y: number; speed: number }) {
-  context.fillStyle = "blue"
+function drawRainDrop(drop: Drop) {
+  context.fillStyle = 'blue'
   context.fillRect(drop.x, drop.y, rainDropWidth, rainDropHeight)
 }
 
@@ -60,25 +97,6 @@ function getRandomRainType(): string {
 }
 
 function drawBackground() {
-  context.fillStyle = "black"
+  context.fillStyle = 'black'
   context.fillRect(0, 0, canvas.width, canvas.height)
-}
-
-function upOrDownArrow(event: KeyboardEvent) {
-  let code = Number(event.code)
-  
-  if (code == 38) {
-    if (rainType == 'drizzle') rainType = 'drizzle'
-    else {
-      let indexOfCurrentType = rainTypes[rainType]
-      rainType = rainTypes[indexOfCurrentType + 1]
-    }
-  }
-  else if (code == 40) {
-    if (rainType == 'heavyRain') rainType = 'heavyRain'
-    else {
-      let indexOfCurrentType = rainTypes[rainType]
-      rainType = rainTypes[indexOfCurrentType - 1]
-    }
-  }
 }
