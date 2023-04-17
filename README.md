@@ -1,6 +1,6 @@
 # rain
 
-Demo => https://maciek367.github.io/rain/
+Demo => https://maciejbaba.github.io/rain/
 
 I needed somekind of animation for second monitor when I don't use it, so I created simple pixel rain
 
